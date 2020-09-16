@@ -1,3 +1,9 @@
+/*
+ * @file double_buffer.cc
+ * @author yyhclimacool@gmail.com
+ * @date 2020-09-15
+ * @brief double buffer
+ */
 #include "double_buffer.h"
 
 const char *ReloadConfigModeStr[ReloadConfig::MODE_NUM] = {
