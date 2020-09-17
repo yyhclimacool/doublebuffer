@@ -86,7 +86,7 @@ bool DoubleBuffer<T>::init(Args &&... args) {
     return false;
   }
 
-  if (switch_monitor_->shouldSwitch() && !reloadBuffer(std::forward<Args>(args) ...)) {
+  if (!reloadBuffer(std::forward<Args>(args) ...)) {
     LOG(WARNING) << "Initial load data for double_buffer=" << name_ << " failed.";
     return false;
   }
@@ -96,11 +96,7 @@ bool DoubleBuffer<T>::init(Args &&... args) {
       while (!this->stop_monitor_) {
         sleep(this->config_.monitor_interval_);
 
-        if (this->switch_monitor_->shouldSwitch()) {
-          this->reloadBuffer(std::forward<Args>(args) ...);
-        } else {
-          DLOG(INFO) << "Switch monitor tells me should not switch.";
-        }
+        this->reloadBuffer(std::forward<Args>(args) ...);
       }
     });
   }
@@ -111,6 +107,16 @@ bool DoubleBuffer<T>::init(Args &&... args) {
 template<typename T>
 template<typename... Args>
 bool DoubleBuffer<T>::reloadBuffer(Args &&... args) {
+  if (!switch_monitor_) {
+    LOG(ERROR) << "switch_monitor is nullptr, return false.";
+    return false;
+  }
+
+  if (!switch_monitor_->shouldSwitch()) {
+    DLOG(INFO) << "Switch monitor tells me not to switch.";
+    return true;
+  }
+
   int alternative_index = 1 - cur_index_;
   auto t_sptr = std::make_shared<T>(std::forward<Args>(args) ...);
   if (!t_sptr) {
@@ -118,7 +124,7 @@ bool DoubleBuffer<T>::reloadBuffer(Args &&... args) {
     return false;
   }
   if (!t_sptr->init()) {
-    LOG(ERROR) << "init failed and clean up the mess.";
+    LOG(ERROR) << "Init failed and clean up the mess.";
     return false;
   }
 
@@ -145,4 +151,4 @@ bool DoubleBuffer<T>::reloadBuffer(Args &&... args) {
   return true;
 }
 
-#endif // COMMON_BASE_DOUBLEBUFFER_H
+#endif // DOUBLEBUFFER_H
