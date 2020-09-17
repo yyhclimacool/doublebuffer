@@ -2,6 +2,7 @@
 # DoubleBuffer
 
 DoubleBuffer In Practice
+
 https://github.com/yyhclimacool/doublebuffer
 
 A high performance double buffer template written in C++
@@ -19,4 +20,4 @@ A high performance double buffer template written in C++
 See double_buffer_test.cc for detail.
 
 ## License
-See LICENSE.TXT
+See LICENSE
