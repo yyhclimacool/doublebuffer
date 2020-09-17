@@ -37,11 +37,9 @@ volatile int FileContent::version = 0;
 
 int main(int argc, char **argv) {
   FLAGS_logbufsecs = 0;
-  FLAGS_logbuflevel = -1;
-  FLAGS_minloglevel = 0;
-  //FLAGS_log_dir = "./logs";
-  FLAGS_logtostderr = true;
+  FLAGS_log_dir = "./logs";
   google::InitGoogleLogging(argv[0]);
+  google::InstallFailureSignalHandler();
 
   ReloadConfig file_double_buffer_reload_config(ReloadConfig::ACTIVE_MODE, 
       ReloadConfig::MONITOR_FILE,
