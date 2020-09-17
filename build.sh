@@ -3,7 +3,7 @@
 CURRENT_DIR=`pwd`
 OUTPUT=$CURRENT_DIR/output
 BUILD_DIR=${BUILD_DIR:-${CURRENT_DIR}/cmake_build}
-BUILD_TYPE=${BUILD_TYPE:-RelWithDebInfo}
+BUILD_TYPE=${BUILD_TYPE:-Debug}
 INSTALL_DIR=${INSTALL_DIR:-${BUILD_DIR}/${BUILD_TYPE}_install}
 
 if [ "$1"x = "clean"x ]

@@ -5,10 +5,12 @@
  * @brief double buffer unittest
  */
 
-#include "double_buffer.h"
-#include <iostream>
-#include <string>
 #include <glog/logging.h>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include "reload_config.h"
+#include "double_buffer.h"
 
 class FileContent {
 public:
@@ -17,9 +19,22 @@ public:
   
   bool init() {
     ++version;
-    detail_ = filename_ + std::to_string(version);
+    std::ifstream ifs(filename_);
+    if (ifs) {
+      ifs.seekg(0, ifs.end);
+      int length = ifs.tellg();
+      ifs.seekg(0, ifs.beg);
+      char *buffer = new char[length];
+      ifs.read(buffer, length);
+      if (!ifs) {
+        LOG(WARNING) << "Read buffer from file=" << filename_ << " for length=" << length << " failed.";
+        return false;
+      }
+      detail_.assign(buffer, length);
+    }
     return true;
   }
+
   int getVersion() {
     return version;
   }

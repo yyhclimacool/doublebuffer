@@ -29,7 +29,7 @@ message(STATUS "CMAKE_CXX_FLAGS_DEBUG: " ${CMAKE_C_FLAGS_DEBUG})
 message(STATUS "CMAKE_CXX_FLAGS_RELEASE: " ${CMAKE_C_FLAGS_RELEASE})
 message(STATUS "CMAKE_CXX_FLAGS_RELWITHDEBINFO: " ${CMAKE_C_FLAGS_RELWITHDEBINFO})
 
-add_executable(double_buffer_unittest double_buffer_unittest.cc double_buffer.cc)
-target_link_libraries(double_buffer_unittest glog gflags pthread)
-install(TARGETS double_buffer_unittest
+add_executable(double_buffer_test double_buffer_test.cc reload_config.cc)
+target_link_libraries(double_buffer_test glog gflags pthread)
+install(TARGETS double_buffer_test
   RUNTIME DESTINATION bin)
