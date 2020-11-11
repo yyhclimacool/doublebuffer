@@ -137,7 +137,7 @@ bool DoubleBuffer<T>::reloadBuffer(Args &&... args) {
   switch_monitor_->doneSwitch();
 
   // Delay of destruction, the destruction maybe a time consuming operation.
-  if (config_.old_buffer_lives_period_ > 0) {
+  if (config_.old_buffer_lives_period_ > 0 && double_buffer_[1 - cur_index_]) {
     sleep(config_.old_buffer_lives_period_);
   }
 
